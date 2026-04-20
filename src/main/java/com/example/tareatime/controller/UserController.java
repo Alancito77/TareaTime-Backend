@@ -1,6 +1,7 @@
 package com.example.tareatime.controller;
 
 import com.example.tareatime.model.request.LoginRequest;
+import com.example.tareatime.model.response.TaskResponse;
 import com.example.tareatime.model.response.UserResponse;
 import com.example.tareatime.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,9 @@ public class UserController {
         @Autowired
         private IUserService iUserService;
 
-        @GetMapping("/usuario/{id}")
-        public ResponseEntity<UserResponse> getUserById(@PathVariable Integer id) {
-            return ResponseEntity.ok(iUserService.getUserById(id));
+        @GetMapping("/usuario/{id}/tareas")
+        public ResponseEntity<List<TaskResponse>> getTasksByUserId(@PathVariable Integer id) {
+            return ResponseEntity.ok(iUserService.getTasksByUserId(id));
         }
 
         @PostMapping("/login")
