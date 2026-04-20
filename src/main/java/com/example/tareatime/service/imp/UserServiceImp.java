@@ -19,45 +19,6 @@ public class UserServiceImp implements IUserService {
     private IUserRepository iUserRepository;
 
     @Override
-    public List<UserResponse> getAllUsers() {
-        List<User> users = iUserRepository.findAll();
-        List<UserResponse> response = new ArrayList<>();
-
-        for (User u : users) {
-
-            List<TaskResponse> tasks = new ArrayList<>();
-
-            if (u.getTasks() != null) {
-                for (Task t : u.getTasks()) {
-                    TaskResponse taskResponse = TaskResponse.builder()
-                            .id(t.getId())
-                            .title(t.getTitle())
-                            .description(t.getDescription())
-                            .professor(t.getProfessor())
-                            .dueDate(t.getDueDate())
-                            .dueTime(t.getDueTime())
-                            .status(t.getStatus())
-                            .createdAt(t.getCreatedAt())
-                            .build();
-
-                    tasks.add(taskResponse);
-                }
-            }
-
-            UserResponse userResponse = UserResponse.builder()
-                    .id(u.getId())
-                    .email(u.getEmail())
-                    .createdAt(u.getCreatedAt())
-                    .tasks(tasks)
-                    .build();
-
-            response.add(userResponse);
-        }
-
-        return response;
-    }
-
-    @Override
     public UserResponse getUserById(Integer id) {
 
         User u = iUserRepository.findById(id)
@@ -118,5 +79,26 @@ public class UserServiceImp implements IUserService {
         }
 
         return tasks;
+    }
+
+    @Override
+    public UserResponse login(String email, String password) {
+
+        User user = iUserRepository.findByEmail(email);
+
+        if (user == null) {
+            throw new RuntimeException("Usuario no encontrado");
+        }
+
+        if (!user.getPassword().equals(password)) {
+            throw new RuntimeException("Contraseña incorrecta");
+        }
+
+        return UserResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .createdAt(user.getCreatedAt())
+                .tasks(new ArrayList<>()) // opcional
+                .build();
     }
 }

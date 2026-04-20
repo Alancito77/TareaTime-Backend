@@ -9,6 +9,4 @@ import java.util.List;
 @Repository
 public interface ITaskRepository extends JpaRepository<Task, Integer> {
 
-    // Obtener tareas por usuario
-    List<Task> findByUserId(Integer userId);
 }
