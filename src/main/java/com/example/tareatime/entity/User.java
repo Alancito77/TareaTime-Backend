@@ -2,7 +2,7 @@ package com.example.tareatime.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.scheduling.config.Task;
+import com.example.tareatime.entity.Task;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,7 +28,7 @@ public class User {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    // 🔥 Relación: 1 usuario -> muchas tareas
+    // Relación: 1 usuario -> muchas tareas
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks;
 }

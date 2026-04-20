@@ -1,5 +1,6 @@
 package com.example.tareatime.controller;
 
+import com.example.tareatime.model.request.LoginRequest;
 import com.example.tareatime.model.response.UserResponse;
 import com.example.tareatime.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +15,17 @@ public class UserController {
         @Autowired
         private IUserService iUserService;
 
-    @GetMapping("/usuario")
-    public ResponseEntity<List<UserResponse>> getAllUsers() {
-        return ResponseEntity.ok(iUserService.getAllUsers());
-    }
+        @GetMapping("/usuario/{id}")
+        public ResponseEntity<UserResponse> getUserById(@PathVariable Integer id) {
+            return ResponseEntity.ok(iUserService.getUserById(id));
+        }
 
-    // 🔹 Obtener usuario por ID
-    @GetMapping("/usuario/{id}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable Integer id) {
-        return ResponseEntity.ok(iUserService.getUserById(id));
-    }
+        @PostMapping("/login")
+        public ResponseEntity<UserResponse> login(@RequestBody LoginRequest request) {
+            return ResponseEntity.ok(
+                iUserService.login(request.getEmail(), request.getPassword())
+            );
+        }
 
         /*@PostMapping
         public ResponseEntity<MateriaResponse> saveSubject(@RequestBody MateriaRequest request) {
