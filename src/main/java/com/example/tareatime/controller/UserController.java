@@ -13,6 +13,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/inicio")
+@CrossOrigin(origins = "http://localhost:4200/")
+
 public class UserController {
         @Autowired
         private IUserService iUserService;
