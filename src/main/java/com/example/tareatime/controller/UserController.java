@@ -1,6 +1,7 @@
 package com.example.tareatime.controller;
 
 import com.example.tareatime.model.request.LoginRequest;
+import com.example.tareatime.model.request.UserRequest;
 import com.example.tareatime.model.response.TaskResponse;
 import com.example.tareatime.model.response.UserResponse;
 import com.example.tareatime.service.IUserService;
@@ -26,6 +27,12 @@ public class UserController {
             return ResponseEntity.ok(
                 iUserService.login(request.getEmail(), request.getPassword())
             );
+        }
+
+        // ENDPOINT REGISTRO DE USUARIO
+        @PostMapping("/register")
+        public ResponseEntity<UserResponse> register(@RequestBody UserRequest request) {
+            return ResponseEntity.ok(iUserService.register(request));
         }
 
         /*@PostMapping
