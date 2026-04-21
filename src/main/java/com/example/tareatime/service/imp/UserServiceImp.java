@@ -2,7 +2,6 @@ package com.example.tareatime.service.imp;
 
 import com.example.tareatime.entity.Task;
 import com.example.tareatime.entity.User;
-import com.example.tareatime.model.request.UserRequest;
 import com.example.tareatime.model.response.TaskResponse;
 import com.example.tareatime.model.response.UserResponse;
 import com.example.tareatime.repository.IUserRepository;
@@ -10,7 +9,6 @@ import com.example.tareatime.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,34 +99,6 @@ public class UserServiceImp implements IUserService {
                 .email(user.getEmail())
                 .createdAt(user.getCreatedAt())
                 .tasks(new ArrayList<>()) // opcional
-                .build();
-    }
-
-    @Override
-    public UserResponse register(UserRequest request) {
-
-        // VALIDAR SI YA EXISTE USUARIO
-        User existingUser = iUserRepository.findByEmail(request.getEmail());
-        if (existingUser != null) {
-            throw new RuntimeException("El correo ya está registrado");
-        }
-
-        // CREAR USUARIO
-        User user = User.builder()
-                .email(request.getEmail())
-                .password(request.getPassword())
-                .createdAt(LocalDateTime.now())
-                .build();
-
-        // GUARDAR
-        User savedUser = iUserRepository.save(user);
-
-        // RETOIRNO EL RESPONSE
-        return UserResponse.builder()
-                .id(savedUser.getId())
-                .email(savedUser.getEmail())
-                .createdAt(savedUser.getCreatedAt())
-                .tasks(null)
                 .build();
     }
 }
