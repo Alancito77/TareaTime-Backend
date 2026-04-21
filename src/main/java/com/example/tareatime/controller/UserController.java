@@ -1,7 +1,9 @@
 package com.example.tareatime.controller;
 
 import com.example.tareatime.model.request.LoginRequest;
+
 import com.example.tareatime.model.request.UserRequest;
+
 import com.example.tareatime.model.response.TaskResponse;
 import com.example.tareatime.model.response.UserResponse;
 import com.example.tareatime.service.IUserService;
@@ -18,10 +20,12 @@ public class UserController {
         private IUserService iUserService;
 
         // METODO GET PARA VER TAREAS
+
         @GetMapping("/usuario/{id}/tareas")
         public ResponseEntity<List<TaskResponse>> getTasksByUserId(@PathVariable Integer id) {
             return ResponseEntity.ok(iUserService.getTasksByUserId(id));
         }
+
 
         // ENDPOINT - POST PARA LOGGEAR
         @PostMapping("/login")
