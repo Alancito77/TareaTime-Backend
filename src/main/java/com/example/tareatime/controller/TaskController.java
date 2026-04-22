@@ -32,7 +32,7 @@ public class TaskController {
         return ResponseEntity.noContent().build();
     }
     // ENDPOINT PARA OBTENER UNA SOLA TAREA POR ID
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<TaskResponse> getTaskById(@PathVariable("id") Integer id) {
         TaskResponse response = iTaskService.getTaskById(id);
         return ResponseEntity.ok(response);
