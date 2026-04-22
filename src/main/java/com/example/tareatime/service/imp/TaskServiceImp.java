@@ -55,4 +55,63 @@ public class TaskServiceImp implements ITaskService {
                 .createdAt(savedTask.getCreatedAt())
                 .build();
     }
+
+    @Override
+    public void deleteTask(Integer id) {
+        // 1. Validar que la tarea exista
+        if (!iTaskRepository.existsById(id)) {
+            throw new RuntimeException("Error: La tarea con ID " + id + " no existe");
+        }
+
+        // 2. Eliminarla
+        iTaskRepository.deleteById(id);
+    }
+
+    @Override
+    public TaskResponse getTaskById(Integer id) {
+        // 1. Buscamos la tarea en la base de datos
+        Task task = iTaskRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Error: La tarea con ID " + id + " no existe"));
+
+        // 2. La convertimos a Response
+        return TaskResponse.builder()
+                .id(task.getId())
+                .title(task.getTitle())
+                .description(task.getDescription())
+                .professor(task.getProfessor())
+                .dueDate(task.getDueDate())
+                .dueTime(task.getDueTime())
+                .status(task.getStatus())
+                .createdAt(task.getCreatedAt())
+                .build();
+    }
+    @Override
+    public TaskResponse updateTask(Integer id, TaskRequest request) {
+        // Buscamos la tarea actual
+        Task task = iTaskRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
+
+        // Actualizamos sus datos con lo que mandó Angular
+        task.setTitle(request.getTitle());
+        task.setDescription(request.getDescription());
+        task.setProfessor(request.getProfessor());
+        task.setDueDate(request.getDueDate());
+        task.setDueTime(request.getDueTime());
+        // El status y createdAt normalmente no se cambian al editar
+
+        // Guardamos en la base de datos
+        Task savedTask = iTaskRepository.save(task);
+
+        // Retornamos la respuesta
+        return TaskResponse.builder()
+                .id(savedTask.getId())
+                .title(savedTask.getTitle())
+                .description(savedTask.getDescription())
+                .professor(savedTask.getProfessor())
+                .dueDate(savedTask.getDueDate())
+                .dueTime(savedTask.getDueTime())
+                .status(savedTask.getStatus())
+                .createdAt(savedTask.getCreatedAt())
+                .build();
+    }
 }

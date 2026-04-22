@@ -6,4 +6,10 @@ import com.example.tareatime.model.response.TaskResponse;
 public interface ITaskService {
 
     TaskResponse createTask(Integer userId, TaskRequest request);
+
+    void deleteTask(Integer id);
+
+    TaskResponse getTaskById(Integer id);
+
+    TaskResponse updateTask(Integer id, TaskRequest request);
 }
